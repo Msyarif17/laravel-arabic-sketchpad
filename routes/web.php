@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\Dashboard\IndexController as DashboardIndexController;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\LeaderBoardController;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -15,9 +18,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [IndexController::class, 'index'])->name('index');
-Route::get('/submit',[IndexController::class, 'index'])->name('submit');
+Route::get('/main', [IndexController::class, 'index'])->name('main');
+Route::post('/submit',[IndexController::class, 'submit'])->name('submit');
+Route::get('/',[LeaderBoardController::class, 'index'])->name('leaderboard');
 
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::middleware(['auth'])->prefix('dashboard')->name('dashboard.')->group(function(){
+    Route::get('/',[DashboardIndexController::class,'index'])->name('index');
+});
