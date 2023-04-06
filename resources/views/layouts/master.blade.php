@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+    <title>{{env('APP_NAME')}}</title>
     
     <script src="{{ asset('assets/js/confetti.min.js') }}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -34,11 +34,12 @@
     @yield('js')
     <script>
         var w = $(".sketchpad").width();
-        console.log(w);
+        var h = $(".sketchpad").height();
+        // console.log(w);
         var sketchpad = new Sketchpad({
             element: '#sketchpad',
             width: w,
-            height: 280
+            height: h
         });
         $("#undo").on("click", function() {
             sketchpad.undo();
@@ -62,14 +63,14 @@
                 url: "{{ route('submit') }}",
                 type: "POST",
                 data: {
-                    image_answare: dataURL,
+                    image_answer: dataURL,
                 },
                 dataType: "html"
             });
-            console.log(request);
+            // console.log(request);
             request.done(function(msg) {
                 let confetti = new Confetti('#submit');
-
+                alert(msg);
                 // Edit given parameters
                 confetti.setCount(75);
                 confetti.setSize(10);

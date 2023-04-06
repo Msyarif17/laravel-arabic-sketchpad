@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Models\AnswareFromUser;
+use App\Models\answerFromUser;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 
@@ -17,10 +17,10 @@ class IndexController extends Controller
     public function submit(Request $request)
     {
         $request->validate([
-            'image_answare' => 'required'
+            'image_answer' => 'required'
         ]);
-        $image = $request->only('image_answare');
-        $image = $image['image_answare'];
+        $image = $request->only('image_answer');
+        $image = $image['image_answer'];
         $extension = explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];   // .jpg .png .pdf
 
         $replace = substr($image, 0, strpos($image, ',') + 1);
@@ -34,7 +34,7 @@ class IndexController extends Controller
         $imageName = hash('md5', Str::random(10)) . '.' . $extension;
         // return $imageName;
         Storage::disk('public')->put($imageName, base64_decode($image));
-        // AnswareFromUser::create($input);
+        // answerFromUser::create($input);
         return 'Horeee Jawaban mu Benar';
     }
 }

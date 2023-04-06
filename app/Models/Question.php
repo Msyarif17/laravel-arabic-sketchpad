@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Level;
+use App\Models\AnswerFromUser;
+use App\Models\AnswerFromExpert;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Question extends Model
 {
@@ -15,12 +18,12 @@ class Question extends Model
         'image_question'
     ];
 
-    public function answare_from_experts(){
-        return $this->hasMany(AnswareFromExpert::class);
+    public function answer_from_experts(){
+        return $this->hasMany(AnswerFromExpert::class);
     }
     
-    public function answare_from_users(){
-        return $this->hasMany(AnswareFromUser::class);
+    public function answer_from_users(){
+        return $this->hasMany(AnswerFromUser::class);
     }
 
     public function level(){

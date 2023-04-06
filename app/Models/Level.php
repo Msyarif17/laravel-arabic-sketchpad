@@ -10,7 +10,7 @@ class Level extends Model
     use HasFactory;
     protected $fillable = [
         'name',
-        'lavel',
+        'level',
         'description',
     ];
     public function question(){

@@ -1,19 +1,22 @@
 <?php
 
-namespace App\View\Components\Dashboard;
+namespace App\View\Components\Dashboard\Form;
 
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class MakeExpert extends Component
+class Questions extends Component
 {
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct(
+        public string $name,
+        public string $createUrl,
+        public string $actionName,
+    )
     {
-        //
     }
 
     /**
@@ -21,6 +24,6 @@ class MakeExpert extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.dashboard.make-expert');
+        return view('components.dashboard.form.questions');
     }
 }

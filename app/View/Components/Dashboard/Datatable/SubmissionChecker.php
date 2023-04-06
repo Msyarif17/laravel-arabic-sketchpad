@@ -1,12 +1,12 @@
 <?php
 
-namespace App\View\Components\Dashboard;
+namespace App\View\Components\Dashboard\Datatable;
 
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class MakeQuestions extends Component
+class SubmissionChecker extends Component
 {
     /**
      * Create a new component instance.
@@ -21,6 +21,6 @@ class MakeQuestions extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.dashboard.make-questions');
+        return view('components.dashboard.datatable.submission-checker');
     }
 }
