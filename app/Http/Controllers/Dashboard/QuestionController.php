@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use Carbon\Carbon;
 use App\Models\Level;
 use App\Models\Question;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Ghostff\TextToImage\Text;
 use Yajra\DataTables\DataTables;
@@ -20,23 +21,31 @@ class QuestionController extends Controller
      */
     public function generateImage($text, $level, $date)
     {
-        $path = storage_path(\public_path('questions/' . $level . '/image/' . hash('md5', $date).".png"));
-        // \dd($path);
-        $text  = Text::from($text)->position(818/2, 204)
-        ->font(28,\public_path('assets/font/Adobe Arabic Regular.otf'))->color(0,0,0);
-        
+        $w = 818;
+        $h = $w/2;
+        $fontSize = round(($w+(strlen($text)*40))/strlen($text));
+        $path = public_path('assets/image/base.png');
 
-        $text_image = new TextToImage();
-        $text_image->setDimension(409,818);
-        $text_image->setBackgroundColor( 255,255,255,255);
-        $text_image->addTexts($text);
-        Storage::disk("public")->put('questions/' . $level . '/image/' . hash('md5', $date).".png",$text_image->render());
-        return'public/questions/' . $level . '/image/' . hash('md5', $date).".png";
+        $img = Image::make($path);
+
+        $img->text($text,$w/2, $h/2, function ($font) use ($fontSize){
+            $font->file(public_path('assets/font/Adobe Arabic Regular.otf'));
+            $font->size($fontSize);
+            $font->color('#000');
+            $font->align('center');
+            $font->valign('middle');
+            $font->angle(0);
+        });
+        Storage::disk('public')->put('/questions/' . Str::slug($level) . '/image/' . hash('md5', $date).'.png',$img->encode()->encoded);
+
+        // $img->save(\storage_path('storage/questions/' . Str::slug($level) . '/image/' . hash('md5', $date).".png"));
+        
+        return'/questions/' . Str::slug($level) . '/image/' . hash('md5', $date).".png";
     }
     public function index(DataTables $datatables, Request $request)
     {
         if ($request->ajax()) {
-            return $datatables->of(Question::query()->with(['level']))
+            return $datatables->of(Question::query()->with(['level'])->latest())
                 ->addColumn('id', function (Question $quest) {
                     return $quest->id;
                 })
@@ -47,7 +56,7 @@ class QuestionController extends Controller
                     return $quest->level->level;
                 })
                 ->addColumn('image_question', function (Question $quest) {
-                    return $quest->image_question;
+                    return \view('dashboard.questions.image', compact('quest'));
                 })
                 ->addColumn('action', function (Question $quest) {
                     $level = Level::pluck('level', 'id')->all();
@@ -90,7 +99,7 @@ class QuestionController extends Controller
         $level = Level::where("id", $input['level_id'])->first();
         $input['image_question'] = $this->generateImage(
             $input['image_question'],
-            $level->name . '-' . $level->level,
+            $level->name . ' ' . $level->level,
             Carbon::now()
         );
         // dd($request->all());
@@ -127,6 +136,7 @@ class QuestionController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Question::find($id)->delete();
+        return back()->withSuccess('Deleted successfully');
     }
 }

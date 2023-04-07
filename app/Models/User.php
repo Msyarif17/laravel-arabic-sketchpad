@@ -58,7 +58,7 @@ class User extends Authenticatable
     public function expert(){
         return $this->role('Expert');
     }
-    public function user(){
+    public function getRoleUser(){
         return $this->role('User');
     }
 }

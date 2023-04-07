@@ -31,7 +31,9 @@ Route::get('/',[LeaderBoardController::class, 'index'])->name('leaderboard');
 Auth::routes();
 Route::middleware(['auth'])->prefix('dashboard')->name('dashboard.')->group(function(){
     Route::resource('questions',QuestionController::class);
-    Route::resource('submissions-checker',SubmissionChecker::class);
+    Route::resource('submissions-check',SubmissionChecker::class);
+    Route::post('submissions-check/accept',[SubmissionChecker::class,'accept'])->name('submissions-check.accept');
+    Route::post('submissions-check/reject',[SubmissionChecker::class,'reject'])->name('submissions-check.reject');
     Route::resource('levels',LevelController::class);
     Route::resource('experts',ExpertController::class);
     Route::resource('answers',AnswerFromExpert::class);

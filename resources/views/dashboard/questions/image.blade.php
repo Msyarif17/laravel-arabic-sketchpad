@@ -1,0 +1,1 @@
+<img src="{{asset('storage'.$quest->image_question)}}" alt="" class="img-fluid">

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignIdFor(Question::class);
             $table->longText('image_answers');
             $table->foreignIdFor(User::class);
-            $table->boolean('is_accepted')->default(false);
+            $table->smallInteger('is_accepted')->default(0);
             $table->timestamps();
         });
     }
