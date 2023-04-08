@@ -19,7 +19,7 @@ class AnswerFromExpert extends Controller
      * Display a listing of the resource.
      */
     
-    public function index()
+    public function index(Request $request)
     {
         // $answer = AnswerFromExpertModel::where('user_id', Auth::user()->id);
         $quest = Level::with(['question'=>function($q){
@@ -31,7 +31,12 @@ class AnswerFromExpert extends Controller
                 ->has('question', '>', 0)
                 ->orderBy('level')
                 ->paginate(1);
-        
+        if($request->ajax()){
+            $quest = Question::with(['answer_from_experts'=>function($q){
+                $q->where('user_id', Auth::user()->id);
+            }])->find((int) $request->id);
+            return $quest;
+        }
         return view('dashboard.answers.index',\compact('quest'));
     }
     /**

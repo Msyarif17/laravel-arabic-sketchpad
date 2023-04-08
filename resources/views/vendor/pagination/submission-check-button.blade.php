@@ -1,6 +1,6 @@
 {{-- {{ dd($paginator->hasPages()) }} --}}
 
-@if ($paginator->hasPages() )
+@if ($paginator->hasPages() || count($elements) >= 1)
     @if ($paginator->hasMorePages())
         <div class="col-6 ps-3 pe-1">
             <button href="{{ $paginator->nextPageUrl() }}" onclick="reject()" class="btn btn-danger w-100" id="reject"><i

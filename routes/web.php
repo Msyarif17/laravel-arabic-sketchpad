@@ -26,7 +26,7 @@ use App\Http\Controllers\Dashboard\IndexController as DashboardIndexController;
 
 Route::get('/main', [IndexController::class, 'index'])->name('main');
 Route::post('/submit',[IndexController::class, 'submit'])->name('submit');
-Route::get('/',[LeaderBoardController::class, 'index'])->name('leaderboard');
+Route::get('/',[IndexController::class, 'index'])->name('index');
 
 Auth::routes();
 Route::middleware(['auth'])->prefix('dashboard')->name('dashboard.')->group(function(){

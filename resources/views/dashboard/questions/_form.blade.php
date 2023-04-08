@@ -1,34 +1,34 @@
 <div class="box-body">
     <div class="row">
         <div class="col-sm-12 col-md-12">
-            <div class="form-group">
+            <div class="form-group text-start">
                 {!! Form::label('level_id', 'Level') !!}
                 {!! Form::select(
                     'level_id[]',
                     $level,
                     @$quest->level,
-                    ['class' => 'form-control', 'placeholder' => 'Select Level'],
+                    ['class' => 'form-control', 'placeholder' => 'Select Level','id' => 'level_id'],
                 ) !!}
                 {!! $errors->first('level_id', '<p class="help-block invalid-feedback">:message</p>') !!}
             </div>
         </div>
         <div class="col-sm-12 col-md-12">
-            <div class="form-group">
-                {!! Form::label('title', 'Question*') !!}
+            <div class="form-group text-start">
+                {!! Form::label('question', 'Question*') !!}
                 {!! Form::text(
                     'question',
                     @$quest->question,
-                    $errors->has('title') ? ['class' => 'form-control is-invalid'] : ['class' => 'form-control'],
+                    $errors->has('question') ? ['class' => 'form-control is-invalid'] : ['class' => 'form-control'],
                 ) !!}
-                {!! $errors->first('title', '<p class="help-block invalid-feedback">:message</p>') !!}
+                {!! $errors->first('question', '<p class="help-block invalid-feedback">:message</p>') !!}
             </div>
         </div>
-        <div class="col-sm-12 col-md-12">
-            <div class="form-group">
+        <div class="col-sm-12 col-md-12 ">
+            <div class="form-group text-start">
                 {!! Form::label('image_question', 'Question For Image') !!}
-                <textarea class="form-control input" name="image_question">{!! old('content', @$quest->image_question) !!}</textarea>
+                <textarea class="form-control input" id="input-{{isset($quest->id) ? $quest->id:'create'}}" name="image_question"></textarea>
                 {!! $errors->first('content', '<p class="help-block invalid-feedback">:message</p>') !!}
-                <div class="simple-keyboard"></div>
+                <div class="keyboard-{{isset($quest->id) ? $quest->id:'create'}}" value="0"></div>
             </div>
         </div>
         

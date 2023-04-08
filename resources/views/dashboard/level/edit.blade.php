@@ -1,6 +1,6 @@
 <!-- Button trigger modal -->
-<button type="button" onclick="edit({{$level->id}})" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
-    Edit
+<button type="button" onclick="edit({{$level->id}})" class="btn btn-primary btn-sm btn-flat" data-bs-toggle="modal" data-bs-target="#editModal">
+    <i class="fa-solid fa-pencil"></i>
 </button>
 
 <!-- Modal -->

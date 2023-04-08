@@ -8,6 +8,27 @@
 
 @section('css')
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="keywords" content="Dashboard Ngaji">
+    <meta name="author" content="{{env('APP_NAME')}}">
+    <meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="{{ asset('assets/image/logo.png') }}">
+    <meta name="description" content="Game menulis arab adalah sebuah permainan yang menantang dan mengasyikkan, di mana kamu bisa belajar menulis huruf Arab dengan cara yang menyenangkan. Dalam game ini, kamu akan diajak untuk mengasah keterampilan menulis huruf Arab dengan cepat dan akurat, sehingga kamu bisa menjadi lebih terampil dalam membaca dan menulis bahasa Arab. Tidak hanya itu, game menulis arab juga menawarkan berbagai level yang semakin sulit, sehingga kamu bisa terus meningkatkan kemampuan menulis Arab-mu seiring dengan semakin tingginya level yang kamu mainkan. Selain itu, game ini juga dilengkapi dengan grafis yang menarik dan fitur-fitur yang seru, sehingga membuatmu betah bermain dan terus mencoba hingga berhasil menyelesaikan level-level yang ada. Dengan game menulis arab, kamu bisa mengasah keterampilan menulis bahasa Arab secara interaktif dan menyenangkan, tanpa perlu mengeluarkan biaya yang mahal untuk kursus atau bimbingan. Jadi, tunggu apalagi? Ayo mainkan game menulis arab sekarang juga dan jadilah ahli dalam menulis huruf Arab!">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ asset('assets/image/logo.png') }}"/>
+<link rel="apple-touch-icon" sizes="57x57" href="{{ asset('assets/image/logo.png') }}">
+<link rel="apple-touch-icon" sizes="60x60" href="{{ asset('assets/image/logo.png') }}">
+<link rel="apple-touch-icon" sizes="72x72" href="{{ asset('assets/image/logo.png') }}">
+<link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/image/logo.png') }}">
+<link rel="apple-touch-icon" sizes="114x114" href="{{ asset('assets/image/logo.png') }}">
+<link rel="apple-touch-icon" sizes="120x120" href="{{ asset('assets/image/logo.png') }}">
+<link rel="apple-touch-icon" sizes="144x144" href="{{ asset('assets/image/logo.png') }}">
+<link rel="apple-touch-icon" sizes="152x152" href="{{ asset('assets/image/logo.png') }}">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/image/logo.png') }}">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/image/logo.png') }}">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/image/logo.png') }}">
+<link rel="icon" type="image/png" sizes="96x96" href="{{ asset('assets/image/logo.png') }}">
+<link rel="icon" type="image/png" sizes="192x192"  href="{{ asset('assets/image/logo.png') }}">
+{{-- <link rel="manifest" href="{{ asset('favicons/manifest.json') }}"> --}}
     <script src="{{ asset('assets/js/confetti.min.js') }}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
         integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
@@ -21,9 +42,6 @@
             background: #685cb8 !important;
         }
 
-        .brand-image {
-            display: none;
-        }
 
         .nav-header,
         .nav-item>.nav-link {
@@ -53,7 +71,7 @@
 
         }
     </style>
-        @stack('style')
+    @stack('style')
 @stop
 
 
@@ -77,7 +95,7 @@
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
     </script>
 
-    <script>
+    {{-- <script>
         $(".brand-link").addClass("d-flex justify-content-center text-decoration-none");
         var dateToday = new Date();
 
@@ -151,62 +169,8 @@
                 return false;
             return true;
         }
-    </script>
-    <script>
-        /**
-         * simple-keyboard documentation
-         * https://github.com/hodgef/simple-keyboard
-         */
-
-        let Keyboard = window.SimpleKeyboard.default;
-        let KeyboardLayouts = window.SimpleKeyboardLayouts.default;
-
-        /**
-         * Available layouts
-         * https://github.com/hodgef/simple-keyboard-layouts/tree/master/src/lib/layouts
-         */
-        let layout = new KeyboardLayouts().get("arabic");
-
-        let keyboard = new Keyboard({
-            onChange: input => onChange(input),
-            onKeyPress: button => onKeyPress(button),
-            ...layout
-        });
-
-        /**
-         * Update simple-keyboard when input is changed directly
-         */
-        document.querySelector(".input").addEventListener("input", event => {
-            keyboard.setInput(event.target.value);
-        });
-        document.querySelector("#modalEdit .input").addEventListener("input", event => {
-            keyboard.setInput(event.target.value);
-        });
-        console.log(keyboard);
-
-        function onChange(input) {
-            document.querySelector(".input").value = input;
-            console.log("Input changed", input);
-        }
-
-        function onKeyPress(button) {
-            console.log("Button pressed", button);
-
-            /**
-             * If you want to handle the shift and caps lock buttons
-             */
-            if (button === "{shift}" || button === "{lock}") handleShift();
-        }
-
-        function handleShift() {
-            let currentLayout = keyboard.options.layoutName;
-            let shiftToggle = currentLayout === "default" ? "shift" : "default";
-
-            keyboard.setOptions({
-                layoutName: shiftToggle
-            });
-        }
-    </script>
+    </script> --}}
+    
     @stack('scripts')
 
 @stop

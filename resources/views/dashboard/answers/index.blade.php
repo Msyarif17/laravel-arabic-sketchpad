@@ -9,14 +9,14 @@
     <section class="content">
         <div class="row pt-3">
             <div class="col-12">
-                <div class="card">
-                    <div class="row mt-3">
-                        <div class="col-md-8 col-sm-12">
+                <div class="row mt-3">
+                    <div class="col-md-8 col-sm-12">
+                        <div class="card">
                             <div class="card-body">
                                 <div class="text-center fw-bold text-capitalize">
 
                                     <h4 id="question">
-                                        Silahkan pilih Soal dibawah
+                                        Silahkan pilih Soal dibawah / Disamping
                                     </h4>
                                 </div>
                                 <div class="mx-auto">
@@ -45,7 +45,8 @@
                                         </div>
                                         <div class="col-4 canvas-button pe-0 ps-1">
                                             <button class="btn btn-danger w-100" id="clear"><i
-                                                    class="fa-solid fa-x"></i> Clear</button>
+                                                    class="fa-solid fa-x"></i>
+                                                Clear</button>
                                         </div>
                                     </div>
                                     <div class="row mt-3">
@@ -80,12 +81,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 col-sm-12">
+                    </div>
+                    <div class="col-md-4 col-sm-12 ">
+                        <div class="card sticky-md-top">
+
                             <div class="card-body">
                                 @foreach ($quest as $level)
                                     <div class="row">
                                         {{-- {{dd($quest)}} --}}
-                                        <div class="col-12">
+                                        <div class="col-12 text-center text-capitalize">
                                             <h4>Level {{ $level->name }} {{ $level->level }} </h4>
                                         </div>
                                     </div>
@@ -93,20 +97,20 @@
                                         @foreach ($level->question as $key => $item)
                                             @if ($item->answer_from_experts->count() > 0)
                                                 @if ($item->answer_from_experts[0]->is_accepted == 0)
-                                                    <button onclick="show({{ $item }})"
+                                                    <button onclick="show({{ $item->id }})"
                                                         val="{{ $item->answer_from_experts->count() }}"id="quest-button-{{ $item->id }}"
                                                         class="col-2  btn btn-secondary text-light m-1 py-2">{{ $key + 1 }}</button>
                                                 @elseif($item->answer_from_experts[0]->is_accepted == 1)
-                                                    <button onclick="show({{ $item }})"
+                                                    <button onclick="show({{ $item->id }})"
                                                         val="{{ $item->answer_from_experts->count() }}"id="quest-button-{{ $item->id }}"
                                                         class="col-2  btn btn-success text-light m-1 py-2">{{ $key + 1 }}</button>
                                                 @else
-                                                    <button onclick="show({{ $item }})"
+                                                    <button onclick="show({{ $item->id }})"
                                                         val="{{ $item->answer_from_experts->count() }}"id="quest-button-{{ $item->id }}"
                                                         class="col-2  btn btn-danger text-light m-1 py-2">{{ $key + 1 }}</button>
                                                 @endif
                                             @else
-                                                <button onclick="show({{ $item }})"
+                                                <button onclick="show({{ $item->id }})"
                                                     val="{{ $item->answer_from_experts->count() }}"id="quest-button-{{ $item->id }}"
                                                     class="col-2  btn btn-primary text-light m-1 py-2">{{ $key + 1 }}</button>
                                             @endif
@@ -123,6 +127,7 @@
                         </div>
                     </div>
                 </div>
+
                 <!-- /.card -->
             </div>
             <!-- /.col -->
@@ -146,67 +151,75 @@
         }
         hideInformationButton();
 
-        function show(data) {
-            $("#question").text(data.question);
-            document.querySelector("#img-quest").style =
-                `height:200px;background-image: url(/storage${data.image_question});background-position: center;background-repeat: no-repeat;background-size: cover`;
-            if (data.answer_from_experts.length > 0) {
-                $("#img-answer").remove();
-                $(".canvas-button").hide();
-                $(".sketchpad").hide();
-                $("#submit").hide();
-                $("#sCanvas")
-                    .append(`<img id="img-answer"src="/storage/` + data.answer_from_experts[0].image_answers +
-                        `"alt="" class="img-fluid rounded border border-primary" >`);
-                $("#information-button").show();
-                if (data.answer_from_experts[0].is_accepted == 0) {
+        function show(id) {
+            $.ajax({
+                url: "{{route('dashboard.answers.index')}}?id=" + id ,
+                type: 'GET',
+                success: function(data) {
+                    $("#question").text(data.question);
+                    document.querySelector("#img-quest").style =
+                        `height:200px;background-image: url(/storage${data.image_question});background-position: center;background-repeat: no-repeat;background-size: cover`;
+                    if (data.answer_from_experts.length > 0) {
+                        $("#img-answer").remove();
+                        $(".canvas-button").hide();
+                        $(".sketchpad").hide();
+                        $("#submit").hide();
+                        $("#sCanvas")
+                            .append(`<img id="img-answer"src="/storage/` + data.answer_from_experts[0]
+                                .image_answers +
+                                `"alt="" class="img-fluid rounded border border-primary" >`);
+                        $("#information-button").show();
+                        if (data.answer_from_experts[0].is_accepted == 0) {
 
-                    $("#confirmation-button").show();
-                    $("#reject-button").hide();
-                    $("#accepted-button").hide();
-                } else if (data.answer_from_experts[0].is_accepted == 1) {
-                    $("#quest-button-" + data.id).removeClass('btn-secondary').addClass('btn-secondary');
-                    $("#accepted-button").show();
-                    $("#confirmation-button").hide();
-                    $("#reject-button").hide();
-                } else {
-                    $("#quest-button-" + data.id).removeClass('btn-secondary').addClass('btn-danger');
-                    $("#reject-button").show();
-                    $("#confirmation-button").hide();
-                    $("#accepted-button").hide();
+                            $("#confirmation-button").show();
+                            $("#reject-button").hide();
+                            $("#accepted-button").hide();
+                        } else if (data.answer_from_experts[0].is_accepted == 1) {
+                            $("#quest-button-" + data.id).removeClass('btn-secondary').addClass(
+                            'btn-secondary');
+                            $("#accepted-button").show();
+                            $("#confirmation-button").hide();
+                            $("#reject-button").hide();
+                        } else {
+                            $("#quest-button-" + data.id).removeClass('btn-secondary').addClass('btn-danger');
+                            $("#reject-button").show();
+                            $("#confirmation-button").hide();
+                            $("#accepted-button").hide();
+                        }
+                    } else {
+                        $("#img-answer").remove();
+                        $(".canvas-button").show();
+                        $(".sketchpad").show();
+                        hideInformationButton();
+                        var w = $(".sketchpad").width();
+                        var h = $(".sketchpad").height();
+                        // console.log(w);
+                        var sketchpad = new Sketchpad({
+                            element: '#sketchpad',
+                            width: w,
+                            height: h
+                        });
+                        $("#undo").on("click", function() {
+                            sketchpad.undo();
+                        });
+                        $("#redo").on("click", function() {
+                            sketchpad.redo();
+                        });
+                        $("#clear").on("click", function() {
+                            sketchpad.clear();
+                        });
+
+                        var canvas = document.getElementById("sketchpad");
+                        var ctx = canvas.getContext("2d");
+                        ctx.fillStyle = "white";
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                        // sketchpad();
+                        $("#submit").show();
+                        $("#submit").attr('data-id', data.id);
+                    }
+                    // console.log(data);
                 }
-            } else {
-                $("#img-answer").remove();
-                $(".canvas-button").show();
-                $(".sketchpad").show();
-                hideInformationButton();
-                var w = $(".sketchpad").width();
-                var h = $(".sketchpad").height();
-                // console.log(w);
-                var sketchpad = new Sketchpad({
-                    element: '#sketchpad',
-                    width: w,
-                    height: h
-                });
-                $("#undo").on("click", function() {
-                    sketchpad.undo();
-                });
-                $("#redo").on("click", function() {
-                    sketchpad.redo();
-                });
-                $("#clear").on("click", function() {
-                    sketchpad.clear();
-                });
-
-                var canvas = document.getElementById("sketchpad");
-                var ctx = canvas.getContext("2d");
-                ctx.fillStyle = "white";
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                // sketchpad();
-                $("#submit").show();
-                $("#submit").attr('data-id', data.id);
-            }
-            console.log(data);
+            });
         }
         var w = $(".sketchpad").width();
         var h = $(".sketchpad").height();

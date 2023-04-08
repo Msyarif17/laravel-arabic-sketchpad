@@ -19,7 +19,7 @@ class QuestionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function generateImage($text, $level, $date)
+    public function generateImage($text, $level, $date,$deletePath = null)
     {
         $w = 818;
         $h = $w/2;
@@ -36,6 +36,13 @@ class QuestionController extends Controller
             $font->valign('middle');
             $font->angle(0);
         });
+        if($path != null){
+            // dd(Storage::disk('public')->exists($deletePath));
+            if(Storage::disk('public')->exists($deletePath)){
+                Storage::disk('public')->delete($deletePath);
+            }
+            
+        }
         Storage::disk('public')->put('/questions/' . Str::slug($level) . '/image/' . hash('md5', $date).'.png',$img->encode()->encoded);
 
         // $img->save(\storage_path('storage/questions/' . Str::slug($level) . '/image/' . hash('md5', $date).".png"));
@@ -45,7 +52,7 @@ class QuestionController extends Controller
     public function index(DataTables $datatables, Request $request)
     {
         if ($request->ajax()) {
-            return $datatables->of(Question::query()->with(['level'])->latest())
+            return $datatables->of(Question::query()->with(['level','answer_from_users','answer_from_experts'])->latest())
                 ->addColumn('id', function (Question $quest) {
                     return $quest->id;
                 })
@@ -54,6 +61,13 @@ class QuestionController extends Controller
                 })
                 ->addColumn('level', function (Question $quest) {
                     return $quest->level->level;
+                })
+                
+                ->addColumn('answer_from_expert', function (Question $quest) {
+                    return $quest->answer_from_experts->count();
+                })
+                ->addColumn('answer_from_user', function (Question $quest) {
+                    return $quest->answer_from_users->count();
                 })
                 ->addColumn('image_question', function (Question $quest) {
                     return \view('dashboard.questions.image', compact('quest'));
@@ -100,7 +114,7 @@ class QuestionController extends Controller
         $input['image_question'] = $this->generateImage(
             $input['image_question'],
             $level->name . ' ' . $level->level,
-            Carbon::now()
+            Carbon::now(),
         );
         // dd($request->all());
         Question::create($input);
@@ -118,9 +132,10 @@ class QuestionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(int $id)
     {
-        //
+        $quest = Question::with('level')->find($id);
+        return $quest;
     }
 
     /**
@@ -128,7 +143,24 @@ class QuestionController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'level_id' => 'required',
+            'question' => 'required',
+            'image_question' => 'required',
+        ]);
+        $input = $request->all();
+        $input['level_id'] = $request->level_id[0] == null ? null : implode("", $input['level_id']);
+        $quest = Question::find($id);
+        $level = Level::where("id", $input['level_id'])->first();
+        $input['image_question'] = $this->generateImage(
+            $input['image_question'],
+            $level->name . ' ' . $level->level,
+            Carbon::now(),
+            $quest->image_question
+        );
+        // dd($request->all());
+        $quest->update($input);
+        return back()->withSuccess('Question created successfully');
     }
 
     /**
