@@ -291,14 +291,19 @@ return [
 
     'menu' => [
         // Navbar items:
-        
+
         [
             'type'         => 'fullscreen-widget',
             'topnav_right' => true,
         ],
 
         // Sidebar items:
-        
+        [
+            'text' => 'Dashboard',
+            'icon'        => 'fa-solid fa-dashboard',
+            'url'  => 'dashboard',
+        ],
+
         [
             'text' => 'Answers',
             'icon'        => 'fa-solid fa-message',
@@ -319,13 +324,18 @@ return [
             'icon'        => 'fa-solid fa-signal',
             'url'  => 'dashboard/levels',
         ],
-        
+
         [
             'text' => 'Expert',
             'icon'        => 'fas fa-fw fa-user',
             'url'  => 'dashboard/expert',
         ],
-        
+        [
+            'text' => 'API Configuration',
+            'icon'        => 'fa-solid fa-circle-nodes',
+            'url'  => 'dashboard/expert',
+        ]
+
     ],
 
     /*
@@ -377,13 +387,13 @@ return [
                     'asset' => false,
                     'location' => 'https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js',
                 ],
-                
+
                 [
                     'type' => 'js',
                     'asset' => false,
                     'location' => 'https://cdn.datatables.net/1.13.2/js/dataTables.bootstrap4.min.js',
                 ],
-                
+
                 [
                     'type' => 'js',
                     'asset' => false,
@@ -395,13 +405,13 @@ return [
                     'asset' => false,
                     'location' => 'https://cdn.datatables.net/buttons/2.3.4/js/buttons.bootstrap4.min.js',
                 ],
-                
+
                 [
                     'type' => 'js',
                     'asset' => false,
                     'location' => 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js',
                 ],
-                
+
                 [
                     'type' => 'js',
                     'asset' => false,
@@ -413,13 +423,13 @@ return [
                     'asset' => false,
                     'location' => 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js',
                 ],
-                
+
                 [
                     'type' => 'js',
                     'asset' => false,
                     'location' => 'https://cdn.datatables.net/buttons/2.3.4/js/buttons.html5.min.js',
                 ],
-                
+
                 [
                     'type' => 'js',
                     'asset' => false,
@@ -461,19 +471,19 @@ return [
                     'asset' => false,
                     'location' => 'https://cdn.datatables.net/1.13.2/css/jquery.dataTables.min.css',
                 ],
-                
+
                 [
                     'type' => 'css',
                     'asset' => false,
                     'location' => 'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css',
                 ],
-                
+
                 [
                     'type' => 'css',
                     'asset' => false,
                     'location' => 'https://cdn.datatables.net/1.13.2/css/dataTables.bootstrap4.min.css',
                 ],
-                
+
                 [
                     'type' => 'css',
                     'asset' => false,

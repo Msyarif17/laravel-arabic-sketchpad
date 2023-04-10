@@ -44,7 +44,6 @@
 
 <body>
     <x-header />
-    <x-hero />
     <main id="main">
         @yield('content')
     </main>
@@ -74,57 +73,6 @@
         integrity="sha512-GTMvKIuYWnu5y1gGLUbMNIXbxusPHehyCdBZJpv+oPikopcgjWBmsIziyp9N8QlRXRFB9y02mQ0C1MRnelE5tg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     @yield('js')
-    <script>
-        var w = $(".sketchpad").width();
-        var h = $(".sketchpad").height();
-        // console.log(w);
-        var sketchpad = new Sketchpad({
-            element: '#sketchpad',
-            width: w,
-            height: h
-        });
-        $("#undo").on("click", function() {
-            sketchpad.undo();
-        });
-        $("#redo").on("click", function() {
-            sketchpad.redo();
-        });
-        $("#clear").on("click", function() {
-            sketchpad.clear();
-        });
-        var $canvas = $("canvas"); // canvas var stored at the top of the code
-
-        $("#submit").click(function() {
-            var dataURL = $canvas[0].toDataURL('image/jpg');
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            var request = $.ajax({
-                url: "{{ route('submit') }}",
-                type: "POST",
-                data: {
-                    image_answer: dataURL,
-                },
-                dataType: "html"
-            });
-            // console.log(request);
-            request.done(function(msg) {
-                let confetti = new Confetti('#submit');
-                alert(msg);
-                // Edit given parameters
-                confetti.setCount(75);
-                confetti.setSize(10);
-                confetti.setPower(25);
-                console.log(confetti);
-            });
-
-            request.fail(function(jqXHR, textStatus) {
-                alert("Request failed: " + textStatus);
-            });
-        });
-    </script>
 </body>
 
 </html>

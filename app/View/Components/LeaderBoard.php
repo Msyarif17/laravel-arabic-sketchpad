@@ -3,9 +3,9 @@
 namespace App\View\Components;
 
 use Closure;
-use App\Models\LeaderBoard as LeaderModel;
 use Illuminate\View\Component;
 use Illuminate\Contracts\View\View;
+use App\Models\LeaderBoard as LeaderModel;
 
 class LeaderBoard extends Component
 {
@@ -23,7 +23,14 @@ class LeaderBoard extends Component
      */
     public function render(): View|Closure|string
     {
-        $leader = $this->leader;
-        return view('components.leader-board',\compact('leader'));
+        $user = LeaderModel::with([
+            'user'=>function($q){
+                $q->withCount('answer_from_users');
+            }
+        ])->orderBy('points','desc');
+        $topThree = $user->take(3)->get();
+        $leaderboard = $user->get();
+        // dd([$topThree, $leaderboard]);
+        return view('components.leader-board',\compact('leaderboard','topThree'));
     }
 }

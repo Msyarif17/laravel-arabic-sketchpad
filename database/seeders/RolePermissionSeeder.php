@@ -52,7 +52,6 @@ class RolePermissionSeeder extends Seeder
             ],
             'Expert' => [
                 'access-dashboard',
-                'answer-the-question',
             ],
             'User' => [
                 'answer-the-question',

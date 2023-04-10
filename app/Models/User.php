@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\LeaderBoard;
+use App\Models\AnswerFromUser;
 use App\Models\AnswerFromExpert;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
@@ -23,6 +25,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'avatar',
+        'expert_active',
+        'google_id'
+
     ];
 
     /**
@@ -33,6 +39,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'two_factor_recovery_codes',
+        'two_factor_secret',
     ];
 
     /**
@@ -49,11 +57,11 @@ class User extends Authenticatable
     }
     
     public function answer_from_users(){
-        return $this->hasMany(AnswerFromUsers::class);
+        return $this->hasMany(AnswerFromUser::class);
     }
     
     public function leaderBoard(){
-        return $this->hasOne(LeaderBoard::class);
+        return $this->hasMany(LeaderBoard::class);
     }
     public function expert(){
         return $this->role('Expert');

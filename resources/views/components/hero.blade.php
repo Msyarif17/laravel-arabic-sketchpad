@@ -14,21 +14,21 @@
 
             <div class="col-lg-4 col-6">
               <div class="stats-item text-center w-100 h-100">
-                <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter"></span>
+                <span data-purecounter-start="0" data-purecounter-end="{{$user}}" data-purecounter-duration="1" class="purecounter"></span>
                 <p>Users</p>
               </div>
             </div><!-- End Stats Item -->
 
             <div class="col-lg-4 col-6">
               <div class="stats-item text-center w-100 h-100">
-                <span data-purecounter-start="0" data-purecounter-end="9999" data-purecounter-duration="1" class="purecounter"></span>
+                <span data-purecounter-start="0" data-purecounter-end="{{$question}}" data-purecounter-duration="1" class="purecounter"></span>
                 <p>Questions</p>
               </div>
             </div><!-- End Stats Item -->
 
             <div class="col-lg-4 col-6">
               <div class="stats-item text-center w-100 h-100">
-                <span data-purecounter-start="0" data-purecounter-end="145300" data-purecounter-duration="1" class="purecounter"></span>
+                <span data-purecounter-start="0" data-purecounter-end="{{$answer}}" data-purecounter-duration="1" class="purecounter"></span>
                 <p>Answers</p>
               </div>
             </div><!-- End Stats Item -->
@@ -38,7 +38,7 @@
           </div>
         </div>
 
-        <div class="col-lg-5 order-1 order-lg-2 hero-img" data-aos="zoom-out">
+        <div class="col-lg-5 order-1 order-lg-2 hero-img d-none d-md-block" data-aos="zoom-out-left">
           <img src="{{asset('assets/image/logo.png')}}" class="img-fluid mb-3 mb-lg-0" alt="">
         </div>
 

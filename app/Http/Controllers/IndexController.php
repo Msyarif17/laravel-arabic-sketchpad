@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Question;
+use App\Models\LeaderBoard;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\answerFromUser;
+use App\Models\AnswerFromExpert;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 
@@ -12,7 +16,20 @@ class IndexController extends Controller
 {
     public function index()
     {
-        return view('index');
+        $lb = LeaderBoard::with([
+            'user'=>function($q){
+                $q->withCount('answer_from_users');
+            }
+        ])->orderBy('points','desc');
+        $topThree = $lb->take(3)->get();
+        $leaderboard = $lb->get();
+        // dd([$topThree, $leaderboard]);
+        $user = User::get()->count();
+        $answer = AnswerFromUser::get()->count() + AnswerFromExpert::get()->count();
+        $question = Question::get()->count();
+        // $true = User::withCount('answer_from_users');
+        // dd($true->get());
+        return view('index',\compact('user', 'question','answer','topThree', 'leaderboard'));
     }
     public function submit(Request $request)
     {

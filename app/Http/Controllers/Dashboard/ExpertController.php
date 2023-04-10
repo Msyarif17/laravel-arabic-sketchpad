@@ -3,16 +3,45 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class ExpertController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(DataTables $datatables,Request $request)
     {
-        //
+        if ($request->ajax()) {
+            return $datatables->of(User::query()->hasRole('Expert'))
+                ->addColumn('id', function (User $level) {
+                    return $level->id;
+                })
+                ->addColumn('name', function (User $level) {
+                    return $level->name;
+                })
+                
+                ->addColumn('level', function (User $level) {
+                    return $level->level;
+                })
+                ->addColumn('action', function (User $level) {
+                    return \view('dashboard.level.button_action', compact('level'));
+                })
+                ->addColumn('status', function (User $level) {
+                    if ($level->deleted_at) {
+                        return 'Inactive';
+                    } else {
+                        return 'Active';
+                    }
+                })
+                ->rawColumns(['status', 'action'])
+                ->make(true);
+        } else {
+
+            return view('dashboard.level.index');
+        }
     }
 
     /**

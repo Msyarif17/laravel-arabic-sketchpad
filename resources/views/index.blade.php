@@ -1,7 +1,10 @@
 @extends('layouts.master')
 @section('content')
-    <x-featured-services />
-    <x-about-us />
-    <x-leader-board />
-    <x-tecnology/>
+
+
+@include('components.hero')
+    @include('components.featured-services')
+    @include('components.about-us')
+    @include('components.leader-board')
+    @include('components.tecnology')
 @stop

@@ -39,28 +39,31 @@
 
     <style>
         .bg-nav {
-            background: #685cb8 !important;
+            background: #ffffff !important;
         }
 
-
-        .nav-header,
+        .user-menu{
+            color:#000000 !important;
+        }
+        .nav-sidebar>
         .nav-item>.nav-link {
-            color: #000 !important;
+            color: #ffffff !important;
         }
 
         .nav-item>.nav-link.active {
-            background: #685cb8 !important;
-            color: white !important;
+            background: #ffffff !important;
+            color: rgb(0, 0, 0) !important;
         }
 
         .brand-text {
             text-decoration: none;
             font-weight: 1000px;
-            color: #000000 !important;
+            color: #ffffff !important;
         }
 
         .color-fix {
-            background-color: #E3CCAE;
+            background-color: #579BB1;
+            color: #fff;
         }
 
         .logo-dashboard {
