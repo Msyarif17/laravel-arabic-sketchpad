@@ -34,7 +34,7 @@ class SocialiteController extends Controller
 
             Auth::login($finduser);
 
-            return redirect()->intended('/profile');
+            return redirect()->intended('/main');
         } else {
             $newUser = User::create([
                 'name' => $user->name,

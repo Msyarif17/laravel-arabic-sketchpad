@@ -16,6 +16,8 @@ class CompleteRegistrationController extends Controller
      */
     public function index()
     {
+        if(Auth::user()->expert_active)
+            return redirect()->intended(route('profile.index'));
         $role = Role::where('name', '!=', 'Super Admin')->pluck('name', 'id')->all();
         $user = Auth::user();
         // dd($user);
@@ -62,18 +64,23 @@ class CompleteRegistrationController extends Controller
         $user = User::find(Auth::user()->id);
         $input = $request->all();
         $image = $request->file('avatar');
+        if(!$user->expert_active){
+
+            $input['password'] = $input['password'] ? Hash::make($input['password']) : $user->password;
+            if ($input['role_id'][0] != null) {
+                $role = Role::find((int)implode('', $input['role_id']));
+                $user->syncRoles([$role->name]);
+            }
+            if ($image) {
+                $image->storeAs('public/avatar/', $user->id . '-' . $image->hashName());
+                $input['avatar'] = '/avatar/' . $user->id . '-' . $image->hashName();
+            }
+            $user->update($input);
+            return \redirect()->intended('/main');
+        }else{
+            return \redirect()->intended(route('profile.index'));
+        }
         // dd($input);
-        $input['password'] = $input['password'] ? Hash::make($input['password']) : $user->password;
-        if ($input['role_id'][0] != null) {
-            $role = Role::find((int)implode('', $input['role_id']));
-            $user->syncRoles([$role->name]);
-        }
-        if ($image) {
-            $image->storeAs('public/avatar/', $user->id . '-' . $image->hashName());
-            $input['avatar'] = '/avatar/' . $user->id . '-' . $image->hashName();
-        }
-        $user->update($input);
-        return \redirect()->intended('/main');
     }
 
     /**
