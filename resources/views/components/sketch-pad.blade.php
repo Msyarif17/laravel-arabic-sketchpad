@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-center">
-    <canvas class="w-100 rounded sketchpad border" id="sketchpad"><canvas>
+    <canvas class="w-100 h-50 rounded sketchpad border" id="sketchpad"><canvas>
     
 </div>
 <div class="container-fluid mt-3">

@@ -1,0 +1,1 @@
+<img src="{{asset('storage'.$answer)}}" alt="" class="img-fluid">

@@ -27,7 +27,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    // protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
@@ -43,11 +43,11 @@ class LoginController extends Controller
     public function redirectTo()
     {
         $role = Auth::user()->hasPermissionTo('access-dashboard');
-        
+        // dd($role);
         if($role){
             return '/dashboard';
         }else{
-            return '/';
+            return \redirect()->intended('/main');
         }
     }
 }

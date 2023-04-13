@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('answare_from_users', function (Blueprint $table) {
+        Schema::create('answer_from_users', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Question::class);
             $table->longText('image_answers');
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('answare_from_users');
+        Schema::dropIfExists('answer_from_users');
     }
 };

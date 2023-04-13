@@ -37,8 +37,8 @@ class RolePermissionSeeder extends Seeder
             'Expert',
             'User',
         ];
-        $roles = collect($arrayOfRolesNames)->map(function ($permission) {
-            return ['name' => $permission, 'guard_name' => 'web'];
+        $roles = collect($arrayOfRolesNames)->map(function ($role) {
+            return ['name' => $role, 'guard_name' => 'web'];
         });
 
         Role::insert($roles->toArray());
@@ -52,7 +52,6 @@ class RolePermissionSeeder extends Seeder
             ],
             'Expert' => [
                 'access-dashboard',
-                'answer-the-question',
             ],
             'User' => [
                 'answer-the-question',

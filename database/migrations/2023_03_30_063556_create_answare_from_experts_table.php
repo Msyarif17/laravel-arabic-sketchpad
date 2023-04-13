@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('answare_from_experts', function (Blueprint $table) {
+        Schema::create('answer_from_experts', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Question::class);
             $table->longText('image_answers');
             $table->foreignIdFor(User::class);
-            $table->boolean('is_accepted')->default(false);
+            $table->smallInteger('is_accepted')->default(0);
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('answare_from_experts');
+        Schema::dropIfExists('answer_from_experts');
     }
 };
